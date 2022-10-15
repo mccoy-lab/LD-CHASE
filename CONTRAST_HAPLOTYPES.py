@@ -1,0 +1,561 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+CONTRAST_HAPLOTYPES
+
+Given sparse aligned sequences from a monosomy and a disomy, the chromosome is
+divided into genomic windows and likelihoods of matched and unmathced
+haplotypes are calculated for each genomic window.
+
+Daniel Ariad (daniel@ariad.org)
+Mar 10, 2022
+"""
+
+import collections, time, pickle, argparse, re, sys, random, os, bz2, gzip, platform
+from HOMOGENOUES_MODELS import homogeneous
+from RECENT_ADMIXTURE_MODELS import recent_admixture
+from DISTANT_ADMIXTURE_MODELS import distant_admixture
+
+
+from itertools import product, starmap, chain
+from functools import reduce
+from operator import and_, attrgetter
+from statistics import mean, variance, pstdev
+from math import comb, log
+
+leg_tuple = collections.namedtuple('leg_tuple', ('chr_id', 'pos', 'ref', 'alt')) #Encodes the rows of the legend table
+obs_tuple = collections.namedtuple('obs_tuple', ('pos', 'read_id', 'base')) #Encodes the rows of the observations table
+
+### Getting a function to count non-zero bits in positive integer.
+class popcount_lk:
+    """ Creates an instance for calculating the population count of
+        bitstring, based on a lookup table of 8 bits. """
+
+    def __init__(self):
+        """ Creates a large lookup table of the Hamming weight of every 8 bit integer. """
+        self.lookup_table = bytes.maketrans(bytes(range(1<<8)),bytes((bin(i).count('1') for i in range(1<<8))))
+        self.byteorder = sys.byteorder
+
+    def __call__(self,x):
+        """ Breaks x, which is a python integer type, into chuncks of 8 bits.
+        Calls the lookup table to get the population count of each chunck and returns
+        the aggregated population count. """
+
+        return sum(x.to_bytes((x.bit_length()>>3)+1,self.byteorder).translate(self.lookup_table))
+
+def mean_and_var(x):
+    """ Calculates the mean and variance. """
+    cache = tuple(x)
+    m = mean(cache)
+    var = variance(cache, xbar=m)
+    return m, var
+
+def mean_and_std(x):
+    """ Calculates the mean and population standard deviation. """
+    cache = tuple(x)
+    m = mean(cache)
+    std = pstdev(cache, mu=m)
+    return m, std
+
+def mean_and_std_of_mean_of_rnd_var(A):
+    """ Calculates the mean and population standard deviation of the mean of random variables.
+        Each row of A represents a random variable, with observations in the columns."""
+    if type(A)==dict:
+        A = tuple(tuple(i) for i in A.values())
+
+    M, N = len(A), len(A[0])
+    mu = sum(sum(likelihoods_in_window)/N for likelihoods_in_window in A)
+    arg = ((sum(sampled_likelihoods) - mu)**2 for sampled_likelihoods in zip(*A))
+    std = (sum(arg) / (N - 1))**.5 / M
+    mean = mu / M
+    return mean, std
+
+def LLR(y,x):
+    """ Calculates the logarithm of y over x and deals with edge cases. """
+    if x and y:
+        result = log(y/x)
+    elif x and not y:
+        result = -1.23456789
+    elif not x and y:
+        result = +1.23456789
+    elif not x and not y:
+        result = 0
+    else:
+        result = None
+    return result
+
+def invert(x,n):
+    """ Inverts the bits of a positive integer. """
+    return  x ^ ((1 << n) - 1)
+
+class supporting_dictionaries:
+    """ This class provides dictionaries that were created by various
+        intersections and unions of the observations table with the reference panel. """
+
+    def __init__(self,  obs_tab, leg_tab, hap_tab_per_group, number_of_haplotypes_per_group, ancestral_makeup, min_HF):
+
+        self.number_of_haplotypes_per_group = number_of_haplotypes_per_group
+        self.min_HF = min_HF
+
+        if type(ancestral_makeup)==dict:
+            self.ancestral_makeup = {group2: ancestral_makeup[group2] for group2 in hap_tab_per_group}
+        else:
+            self.ancestral_makeup = {group2: 1/len(ancestral_makeup) for group2 in hap_tab_per_group}
+
+        self.leg_dict = {l.pos: (l.ref,l.alt) for l in leg_tab} ### Lists chromosome positions of SNPs and gives a tuple of reference and alternative alleles.
+        self.reads = self.build_reads_dict(obs_tab, self.leg_dict)
+        self.overlaps = self.build_overlaps_dict(obs_tab, self.leg_dict)
+        self.positions = (*self.overlaps.keys(),) ### The intersections of positions within the observation table and the reference panel.
+        self.hap_tab_per_group = self.build_hap_tab_per_group(hap_tab_per_group, leg_tab, self.positions)
+        self.score = self.build_score_dict(self.reads, self.hap_tab_per_group, self.number_of_haplotypes_per_group, self.ancestral_makeup, self.min_HF)
+
+
+    def build_reads_dict(self, obs_tab, leg_dict):
+        """ Returns a dictionary that lists read IDs of reads that overlap with
+            SNPs and gives the alleles in each read. """
+
+        reads = collections.defaultdict(list)
+
+        for pos, read_id, base in obs_tab:
+            if base in leg_dict.get(pos,[]):
+                reads[read_id].append((pos,base))
+
+        return reads
+
+    def build_overlaps_dict(self, obs_tab, leg_dict):
+        """ Returns a dictionary that lists chromosome positions of SNPs and gives a
+        list of read IDs for all the reads that overlap with the SNP. """
+
+        overlaps_dict = collections.defaultdict(list)
+
+        for pos, read_id, base in obs_tab:
+            if base in leg_dict.get(pos,[]):
+                overlaps_dict[pos].append(read_id)
+        return overlaps_dict
+
+    def build_hap_tab_per_group(self, hap_tab_per_group, leg_tab, positions):
+        """  Returns a nested dictionary that lists group2/superpopulations and
+        given a dictionary of SNPs position vs. haplotypes in the group2. """
+
+        relevant_positions= set(positions)
+        result = {group2: {leg.pos: hap for leg, hap in zip(leg_tab,hap_tab) if leg.pos in relevant_positions}
+                      for group2, hap_tab in hap_tab_per_group.items()}
+
+        return result
+
+    def build_score_dict(self, reads_dict, hap_tab_per_group, number_of_haplotypes_per_group, ancestral_makeup, min_HF):
+        """ Returns a dicitonary lists read_IDs and gives their score. The scoring
+        algorithm scores each read according to the number of differet haplotypes
+        that the reference panel supports at the chromosomal region that overlaps
+        with the read. Only bialleic SNP with a minor allele frequeancy above
+        0.01 are considered for the calculation, since they are unlikely to affect
+        the score. In addition, only haplotypes with a frequnecy between min_HF
+        and 1-min_HF add to the score of a read. """
+
+        score_dict = {}
+        max_HF = 1 - min_HF #Maximal haplotype frequency
+        alpha = {group2: ancestral_makeup[group2]/number_of_haplotypes for group2, number_of_haplotypes in number_of_haplotypes_per_group.items()}
+
+        B = {group2: (1 << number_of_haplotypes) - 1
+             for group2, number_of_haplotypes in number_of_haplotypes_per_group.items()} ### Used later for flipping bits. Also, (1 << number_of_haplotypes) -1 equivalent to int('1'*number_of_haplotypes,2).
+
+
+        for read_id in reads_dict:
+            haplotypes = collections.defaultdict(list)
+
+            for pos,base in reads_dict[read_id]:
+
+                eff_allele_freq = sum(a * popcount(hap_tab_per_group[group2][pos]) for group2, a in alpha.items())
+
+                if 0.01 <= eff_allele_freq <= 0.99: ### Include only biallelic SNPs with MAF of at least 0.01.
+                    for group2, b in B.items():
+                        hap = hap_tab_per_group[group2][pos]
+                        haplotypes[group2].append((hap, hap ^ b)) ### ^b flips all bits of the binary number using bitwise xor operator.
+
+            if len(haplotypes):
+                cache = [(a * popcount(reduce(and_,hap)) for hap in product(*haplotypes[group2]))
+                             for group2,a in alpha.items()]
+
+                score_dict[read_id] = sum(min_HF<=i<=max_HF for i in map(sum,zip(*cache)))
+
+            else:
+                score_dict[read_id] = 0
+
+        return score_dict
+    
+def build_gw_dict(disomy, monosomy, window_size, offset, min_reads, max_reads, min_score):
+    """ Returns a dictionary the lists genomic windows and gives the read IDs
+        of reads that overlap with SNPs in the genomic window. Only reads with
+        a score larger than one are considered. """
+
+    max_dist = 100000 #maximal distance between consecutive observed alleles.
+    max_win_size = 350000 #maximal genomic window size
+    initial_win_size = 10000 #initial genomic window size
+
+    adaptive, window_size = (False, int(window_size)) if window_size else (True, initial_win_size)
+    offset = int(offset)
+
+    assert len(disomy.positions), 'error: the observation table of the disomy is empty.'
+    assert len(monosomy.positions), 'error: the observation table of the monosomy is empty.'
+
+    positions = sorted(disomy.positions+monosomy.positions)
+    first, last = positions[0] + offset, positions[-1] + window_size
+    a, b  = first, first+window_size
+    cache_disomy, cache_monosomy = set(), set()
+
+    gw_disomy = {}
+    gw_monosomy = {}
+
+    for pos in positions:
+
+        if pos<first:
+            continue
+
+        while b<last:
+
+            if a<=pos<b:
+                cache_disomy.update(read_ID for read_ID in disomy.overlaps.get(pos,[])
+                                    if min_score<=disomy.score[read_ID])
+                cache_monosomy.update(read_ID for read_ID in monosomy.overlaps.get(pos,[])
+                                      if min_score<=monosomy.score[read_ID])
+                break
+
+            if adaptive:
+                cond = {}
+                cond[0] = 0<len(cache_disomy)<2*min_reads or 0<len(cache_monosomy)<min_reads
+                cond[1] = b-pos<=max_dist
+                cond[2] = b-a<=max_win_size
+                if all(cond.values()):
+                    b += 10000
+                    continue
+
+            gw_disomy[a,b-1] = tuple(cache_disomy) #the genomic window includes both endpoints.
+            gw_monosomy[a,b-1] = tuple(cache_monosomy) #the genomic window includes both endpoints.
+            a, b = b, b+window_size
+            cache_disomy, cache_monosomy = set(), set()
+
+    return gw_disomy, gw_monosomy
+
+def pick_reads(reads_dict,read_IDs,max_reads):
+    """ Draws up to max_reads reads from a given genomic window. The reads are
+        randomly sampled without replacement to meet the assumptions of the
+        statistical models."""
+
+    drawn_read_IDs = random.sample(read_IDs, min(len(read_IDs)-1,max_reads))
+    haplotypes = tuple(reads_dict[read_ID] for read_ID in drawn_read_IDs)
+    return haplotypes
+
+def effective_number_of_subsamples(num_of_reads,min_reads,max_reads,subsamples):
+    """ Ensures that the number of requested subsamples is not larger than the
+    number of unique subsamples. In addition, it checks that a genomic window
+    contains a minimal number of reads (min_reads) that overlap with known
+    SNPs. """
+
+    if  min_reads <= num_of_reads > max_reads:
+        eff_subsamples = min(comb(num_of_reads,max_reads),subsamples)
+    elif min_reads <= num_of_reads <= max_reads:
+        eff_subsamples = min(num_of_reads,subsamples)
+    else:
+        eff_subsamples = 0
+
+    return eff_subsamples
+
+def bootstrap(disomy_obs_tab, monosomy_obs_tab, leg_tab, hap_tab,
+              number_of_haplotypes, ancestral_makeup, window_size,
+              subsamples, offset, min_reads, max_reads, min_score, min_HF):
+    """ Applies a bootstrap approach in which: (i) the resample size is smaller
+    than the sample size and (ii) resampling is done without replacement. """
+
+    min_reads == max(min_reads,3) # Due to the bootstrap approach, min_reads must be at least 3.
+    max_reads == max(max_reads,2) # Our statistical models require at least 2 reads.
+    disomy = supporting_dictionaries(disomy_obs_tab, leg_tab, hap_tab, number_of_haplotypes, ancestral_makeup, min_HF)
+    monosomy = supporting_dictionaries(monosomy_obs_tab, leg_tab, hap_tab, number_of_haplotypes, ancestral_makeup, min_HF)
+    gw_disomy, gw_monosomy = build_gw_dict(disomy, monosomy, window_size, offset, min_reads, max_reads, min_score)
+
+    if type(ancestral_makeup)==set and len(ancestral_makeup)==1:
+        print('Assuming one ancestral population: %s.' % next(iter(ancestral_makeup)))
+        examine = homogeneous(disomy_obs_tab + monosomy_obs_tab, leg_tab, hap_tab, number_of_haplotypes)
+    elif type(ancestral_makeup)==set and len(ancestral_makeup)==2:
+        print('Assuming recent-admixture between %s and %s.' % tuple(ancestral_makeup))
+        examine = recent_admixture(disomy_obs_tab + monosomy_obs_tab, leg_tab, hap_tab, number_of_haplotypes)
+    elif type(ancestral_makeup)==dict:
+        print('Assuming the following ancestral makeup:', ", ".join("{:.1f}% {}".format(100*v, k) for k, v in ancestral_makeup.items()))
+        examine = distant_admixture(disomy_obs_tab + monosomy_obs_tab, leg_tab, hap_tab, number_of_haplotypes, ancestral_makeup)
+    else:
+        raise Exception('error: unsupported ancestral-makeup.')
+
+    likelihoods = {}
+
+    for k, window in enumerate(gw_disomy.keys()):
+
+        effN_disomy = effective_number_of_subsamples(len(gw_disomy[window]),2*min_reads,2*max_reads,subsamples)
+        effN_monosomy = effective_number_of_subsamples(len(gw_monosomy[window]),min_reads,max_reads,subsamples)
+
+        if effN_disomy==0 or effN_monosomy==0:
+            continue ### Ensures that the genomic windows contains enough reads for sampling.
+
+        effN = max(effN_disomy, effN_monosomy)
+        if effN: ### Adds a genomic window only if it contains enough reads for sampling.
+            cache = []
+            for i in range(effN):
+                sys.stdout.write(f"\r{chr(10633)+' ':s}{chr(10495) * (32*(k+1)//len(gw_disomy)) + chr(10240 + (256-effN+i)%256)  :{33}s}{' '+chr(10634):s} {int(100*(k+1)/len(gw_disomy))}%"); sys.stdout.flush()
+                sampled_reads_disomy = pick_reads(disomy.reads,gw_disomy[window],2*max_reads)
+                sampled_reads_monosomy = pick_reads(monosomy.reads,gw_monosomy[window],max_reads)
+                sampled_reads_monosomy_concatenated = tuple(chain.from_iterable(sampled_reads_monosomy)) #All reads from the monosomy originated from the same DNA molecule.
+                sampled_reads = (*sampled_reads_disomy, sampled_reads_monosomy_concatenated)
+                cache.append(examine.get_likelihoods(sampled_reads))
+            likelihoods[window] = tuple(cache)
+
+    return likelihoods, {'disomy': gw_disomy, 'monosomy': gw_monosomy} , examine.fraction_of_matches
+
+def statistics(likelihoods,windows):
+    """ Compares likelihoods of different aneuploidy scenarios and extracts
+    useful information about the genmoic windows. """
+
+    if likelihoods:
+        window_size_mean, window_size_std = mean_and_std((j-i+1 for (i,j) in likelihoods))
+
+        disomy_reads_mean, disomy_reads_std = mean_and_std((len(read_IDs) for window,read_IDs in windows['disomy'].items() if window in likelihoods))
+
+        monosomy_reads_mean, monosomy_reads_std = mean_and_std((len(read_IDs) for window,read_IDs in windows['monosomy'].items() if window in likelihoods))
+
+
+        num_of_windows = len(likelihoods)
+
+        LLRs = {window:  tuple(starmap(LLR, likelihoods_in_window))
+                           for window,likelihoods_in_window in likelihoods.items()}
+
+        LLRs_per_genomic_window = {window: mean_and_var(LLRs_in_window) for window, LLRs_in_window in LLRs.items()}
+
+        cache = mean_and_std_of_mean_of_rnd_var(LLRs)
+
+
+        LLRs_per_chromosome = {'mean_of_mean': cache[0],
+                     'std_of_mean': cache[1],
+                     'fraction_of_negative_LLRs': mean(m<0 for m,v in LLRs_per_genomic_window.values())}
+
+        result = {'num_of_windows': num_of_windows,
+                  'disomy_reads_mean': disomy_reads_mean,
+                  'disomy_reads_std': disomy_reads_std,
+                  'monosomy_reads_mean': monosomy_reads_mean,
+                  'monosomy_reads_std': monosomy_reads_std,
+                  'window_size_mean': window_size_mean,
+                  'window_size_std': window_size_std,
+                  'LLRs_per_genomic_window': LLRs_per_genomic_window,
+                  'LLRs_per_chromosome': LLRs_per_chromosome}
+    else:
+        result = {'num_of_windows': 0}
+    return result
+
+def print_summary(info):
+    S = info['statistics']
+    ancestral_makeup = ", ".join("{:.1f}% {}".format(100*v, k) for k, v in info['ancestral_makeup'].items()) if type(info['ancestral_makeup'])==dict else ', '.join(info['ancestral_makeup'])
+    matched_alleles = ", ".join("{}: {:.1f}%".format(k,100*v) for k, v in info['statistics']['matched_alleles'].items())
+
+    print('\nFilename of the disomy observation table: %s' % info['disomy_obs_filename'])
+    print('\nFilename of the monosomy observation table: %s' % info['monosomy_obs_filename'])
+    print('\nSummary statistics:')
+    print('-------------------')
+    print('Chromosome ID: %s' % info['chr_id'])
+    print('Depth of coverage of the disomy sequence: %.2f' % info['depth']['disomy'])
+    print('Depth of coverage of the monosomy sequence: %.2f' % info['depth']['monosomy'])
+    print('Number of genomic windows: %d, Mean and standard error of genomic window size: %d, %d.' % (S.get('num_of_windows',0),S.get('window_size_mean',0),S.get('window_size_std',0)))
+    print('Mean and standard error of meaningful reads per genomic window from the disomy sequence: %.1f, %.1f.' % (S.get('disomy_reads_mean',0), S.get('disomy_reads_std',0)))
+    print('Mean and standard error of meaningful reads per genomic window from the monosomy sequence: %.1f, %.1f.' % (S.get('monosomy_reads_mean',0), S.get('monosomy_reads_std',0)))
+    print('Ancestral makeup: %s, Fraction of alleles matched to the reference panel: %s.' % (ancestral_makeup, matched_alleles))
+
+    if S.get('LLRs_per_chromosome',None):
+        L = S['LLRs_per_chromosome']
+        print("--- Chromosome-wide LLR between UNMATCHED and MATCHED ----")
+        print(f"Mean LLR: {L['mean_of_mean']:.3f}, Standard error of the mean LLR: {L['std_of_mean']:.3f}")
+        print(f"Fraction of genomic windows with a negative LLR: {L['fraction_of_negative_LLRs']:.3f}")
+
+def save_results(likelihoods,info,compress,obs_filename,output_filename,output_dir):
+    """ Saves the likelihoods together with information about the chromosome
+        number, depth of coverage, ancestry, statistics of the genomic windows
+        and flags that were used. Also, data compression is supported in gzip
+        and bzip2 formats. """
+
+    Open = {'bz2': bz2.open, 'gz': gzip.open}.get(compress, open)
+    ext = ('.'+compress) * (compress in ('bz2','gz'))
+    obs_filename_stripped =  obs_filename.rsplit('/', 1).pop()
+    default_output_filename = re.sub('(.*)obs.p(.*)',f'\\1LLR.p{ext:s}', obs_filename_stripped, 1)
+    if output_filename=='':
+        output_filename = default_output_filename
+    else:
+        output_filename += ext
+
+    output_dir = output_dir.rstrip('/') +'/' #undocumented option
+    if output_dir!='' and not os.path.exists(output_dir): os.makedirs(output_dir)
+
+    with Open(output_dir + output_filename, "wb") as f:
+        pickle.dump(likelihoods, f, protocol=4)
+        pickle.dump(info, f, protocol=4)
+    return output_dir + output_filename
+
+def contrast(disomy_obs_filename,monosomy_obs_filename,leg_filename,
+                        hap_filename,ancestral_makeup,
+                        window_size,subsamples,offset,min_reads,max_reads,
+                        min_score,min_HF,output_filename,compress,**kwargs):
+    """ Returns a dictionary that lists the boundaries of approximately
+    independent genomic windows. For each genomic window it gives the
+    likelihood of four scenarios, namely, monosomy, disomy, SPH and BPH.
+    It also returns a dictionary with various run parameters. """
+
+    time0 = time.time()
+
+    random.seed(a=kwargs.get('seed', None), version=2) #I should make sure that a=None after finishing to debug the code.
+
+    if kwargs.get('seed', None) != None:
+        print('caution: seed is set to a fixed value.')
+
+    load = lambda filename: {'bz2': bz2.open, 'gz': gzip.open}.get(filename.rsplit('.',1)[1], open)  #Adjusts the opening method according to the file extension.
+
+    open_hap = load(hap_filename)
+    with open_hap(hap_filename,'rb') as hap_in:
+        hap_tab = pickle.load(hap_in)
+        number_of_haplotypes = pickle.load(hap_in)
+
+    open_leg = load(leg_filename)
+    with open_leg(leg_filename,'rb') as leg_in:
+        leg_tab = pickle.load(leg_in)
+
+    open_obs = load(disomy_obs_filename)
+    with open_obs(disomy_obs_filename, 'rb') as obs_in:
+        disomy_obs_tab = pickle.load(obs_in)
+        disomy_info = pickle.load(obs_in)
+
+    open_obs = load(monosomy_obs_filename)
+    with open_obs(monosomy_obs_filename, 'rb') as obs_in:
+        monosomy_obs_tab = pickle.load(obs_in)
+        monosomy_info = pickle.load(obs_in)
+
+    assert monosomy_info['chr_id']==disomy_info['chr_id'] , "error: the chr_id in the observations tables does not match."
+    
+    assert {*map(attrgetter('read_id'),disomy_obs_tab)}.isdisjoint({*map(attrgetter('read_id'),monosomy_obs_tab)}), "error: disomy_obs_tab and monosomy_obs_tab share common read IDs."
+    
+
+    ancestry = set(ancestral_makeup.keys()) if type(ancestral_makeup)==dict else set(ancestral_makeup)
+    assert ancestry=={*hap_tab}, 'error: the given ancestral makup does match the superpopulations (group2) in the reference panel.'
+
+    likelihoods, windows_dict, matched_alleles = bootstrap(disomy_obs_tab, monosomy_obs_tab, leg_tab, hap_tab, number_of_haplotypes, ancestral_makeup, window_size, subsamples, offset, min_reads, max_reads, min_score, min_HF)
+
+    some_statistics = {'matched_alleles': matched_alleles,
+                       'runtime': time.time()-time0}
+
+    info = {'chr_id': disomy_info['chr_id'],
+            'depth': {'monosomy': monosomy_info['depth'], 'disomy': disomy_info['depth']},
+            'disomy_obs_filename': disomy_obs_filename,
+            'monosomy_obs_filename': monosomy_obs_filename,
+            'ancestral_makeup': ancestral_makeup,
+            'window_size': window_size,
+            'subsamples': subsamples,
+            'offset': offset,
+            'min_reads': min_reads,
+            'max_reads': max_reads,
+            'min_score': min_score,
+            'min_HF': min_HF,
+            'statistics': {**statistics(likelihoods,windows_dict), **some_statistics},
+            'read_length': {'monosomy': monosomy_info.get('read_length',None), 'disomy': disomy_info.get('read_length',None)}}
+
+
+    if output_filename!=None:
+        save_results(likelihoods,info,compress,disomy_obs_filename,output_filename,kwargs.get('output_dir', 'results'))
+
+    print_summary(info)
+
+    time1 = time.time()
+    print('Done calculating LLRs for all the genomic windows in %.3f sec.' % ((time1-time0)))
+
+    return likelihoods, info
+
+if platform.python_implementation()=='PyPy':
+    popcount = popcount_lk()
+else:
+    try:
+        from gmpy2 import popcount
+    except Exception as error_msg:
+        print(error_msg)
+        popcount = popcount_lk()
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+    description='Builds a dictionary that lists genomic windows that contain'
+                'at least three reads and gives the associated log-likelihood '
+                'ratio (LLR) of unmatch haplotypes to matched haplotypes.')
+    parser.add_argument('disomy_obs_filename', metavar='DISOMY_OBS_FILENAME', type=str,
+                        help='A observations file created by MAKE_OBS_TAB for a disomy.')
+    parser.add_argument('monosomy_obs_filename', metavar='MONOSOMY_OBS_FILENAME', type=str,
+                        help='A observations file created by MAKE_OBS_TAB for a monosomy.')
+    parser.add_argument('leg_filename', metavar='LEG_FILENAME', type=str,
+                        help='A legend file of the reference panel.')
+    parser.add_argument('hap_filename', metavar='HAP_FILENAME', type=str,
+                        help='A haplotype file of the reference panel.')
+    parser.add_argument('ancestral_makeup', metavar='ANCESTRAL_MAKEUP', nargs='+',
+                        help='Assume an ancestral makeup:\n'
+                        'a. For non-admixtures the argument consists a single superpopulation, e.g., EUR. \n'
+                        'b. For recent admixtures the argument consists two superpopulations, e.g., EUR EAS. \n'
+                        'c. For distant admixtures the argument consists of the superpoplations and their proportions, e.g, EUR 0.8 EAS 0.1 SAS 0.1.\n')
+    parser.add_argument('-w', '--window-size', type=int,
+                        metavar='INT', default='100000',
+                        help='Specifies the size of the genomic window. The default value is 100 kbp. When given a zero-size genomic window, it adjusts the size of the window to include min-reads reads.')
+    parser.add_argument('-s', '--subsamples', type=int,
+                        metavar='INT', default='32',
+                        help='Sets the number of subsamples per genomic window. The default value is 32.')
+    parser.add_argument('-o', '--offset', type=int, metavar='INT', default=0,
+                        help='Shifts all the genomic windows by the requested base pairs. The default value is 0.')
+    parser.add_argument('-m', '--min-reads', type=int, metavar='INT', default=6,
+                        help='Takes into account only genomic windows with at least INT reads per homolog, admitting non-zero score. The minimal value is 3, while the default is 6.')
+    parser.add_argument('-M', '--max-reads', type=int, metavar='INT', default=4,
+                        help='Selects up to INT reads per homolog from each genomic windows in each bootstrap sampling. The minimal value is 2, while the default value is 4.')
+    parser.add_argument('-F', '--min-HF', type=float, metavar='FLOAT', default=0.05,
+                        help='Only haplotypes with a frequnecy between FLOAT and 1-FLOAT add to the score of a read. The default value is 0.05.')
+    parser.add_argument('-S', '--min-score', type=int, metavar='INT', default=2,
+                        help='Consider only reads that reach the minimal score. The default value is 2.')
+    parser.add_argument('-O', '--output-filename', type=str, metavar='output_filename',  default='',
+                        help='The output filename. The default is the input filename with the extension \".obs.p\" replaced by \".LLR.p\".')
+    parser.add_argument('-C', '--compress', metavar='gz/bz2/unc', type=str, default='unc',  choices=['gz','bz2','unc'],
+                        help='Output compressed via gzip, bzip2 or uncompressed. Default is uncompressed.')
+    args = vars(parser.parse_args())
+
+    strings_in_even = all(i.isalpha() for i in args['ancestral_makeup'][0::2])
+    strings_in_odd = all(i.isalpha() for i in args['ancestral_makeup'][1::2])
+    floats_in_odd = all(i.replace('.','',1).isdigit() for i in args['ancestral_makeup'][1::2])
+    if strings_in_even and strings_in_odd and len(args['ancestral_makeup']) in (1,2):
+        args['ancestral_makeup'] = set(args['ancestral_makeup'])
+    elif strings_in_even and floats_in_odd:
+        args['ancestral_makeup'] = dict(zip(args['ancestral_makeup'][0::2],map(float,args['ancestral_makeup'][1::2])))
+    else:
+        raise Exception('error: Invalid argument supplied for ancestral makeup.')
+
+    LLR_dict, info = contrast(**args)
+
+    sys.exit(0)
+else:
+    print("The module CONTRAST_HAPLOTYPES was imported.")
+
+### END OF FILE ###
+"""
+
+hap_filename = '/home/ariad/Dropbox/postdoc_JHU/Project2_Trace_Crossovers/reference_panels_NYGC/EUR_panel/chr16_EUR_panel.hap.gz'
+leg_filename = '/home/ariad/Dropbox/postdoc_JHU/Project2_Trace_Crossovers/reference_panels_NYGC/EUR_panel/chr16_EUR_panel.legend.gz'
+obs_filename = '/home/ariad/Dropbox/postdoc_JHU/Project2_Trace_Crossovers/article/fig5-balanced_ROC_curves_for_CC/simulated_data_nonmasked_0.05x/nonadmixed_EUR_chr16/simulated.disomy.chr16.x0.100.HG00097A.NA12716A.obs.p.bz2'
+load = lambda filename: {'bz2': bz2.open, 'gz': gzip.open}.get(filename.rsplit('.',1)[1], open)  #Adjusts the opening method according to the file extension.
+open_hap = load(hap_filename)
+with open_hap(hap_filename,'rb') as hap_in:
+    hap_tab_per_group = pickle.load(hap_in)
+    number_of_haplotypes_per_group = pickle.load(hap_in)
+
+open_leg = load(leg_filename)
+with open_leg(leg_filename,'rb') as leg_in:
+    leg_tab = pickle.load(leg_in)
+
+open_obs = load('/home/ariad/Dropbox/postdoc_JHU/Project2_Trace_Crossovers/article/fig5-balanced_ROC_curves_for_CC/simulated_data_nonmasked_0.05x/nonadmixed_EUR_chr16/simulated.disomy.chr16.x0.100.HG00097A.NA12716A.obs.p.bz2')
+with open_obs(obs_filename, 'rb') as obs_in:
+    obs_tab = pickle.load(obs_in)
+    #info = pickle.load(f)
+    
+Y = supporting_dictionaries( obs_tab, leg_tab, hap_tab_per_group, number_of_haplotypes_per_group, ancestral_makeup={'EUR': 1}, min_HF=0.05)
+P = [i.pos for i in leg_tab]
+P2 = [(m,i) for m,(i,j) in enumerate(zip(P[0:],P[1:])) if i==j]    
+"""
