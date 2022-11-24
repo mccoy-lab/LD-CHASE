@@ -290,6 +290,47 @@ def clusters_crossovers(crossovers, dx, min_frac=0.5):
     # (c) The minimal kappa score of the supporting crossovers.
     return monosomy_crossovers
 
+def clusters_crossovers_v2(crossovers, dx, min_frac=0.5):
+    """ Clusters crossovers in a region of width dx, when at least min_frac of 
+        the samples admit this crossover. Then, the crossovers in each cluster
+        are averaged and associated with a single crossover in the monosomy. """
+    
+    ### disomy_id : position : kappa
+    monosomy_crossovers = {}
+    
+    lenC = sum(1 for disomy_id, events in crossovers.items() if len(events))
+    
+    if lenC:
+    
+        crossovers_flatten = ((disomy_id,position,kappa) 
+                                  for disomy_id, events in crossovers.items() 
+                                      for position,kappa in events.items())
+        
+        D_flatten, C_flatten, K_flatten = zip(*sorted(crossovers_flatten,key=itemgetter(1)))
+           
+    
+    for k in range(2*lenC, int(min_frac * lenC)+1, -1):
+        i = 0
+        while(i<=len(C_flatten)-k): #i is the index of the sliding window
+            if C_flatten[i+k-1]-C_flatten[i] < dx:
+                SUPPORTING_INFO = (*zip(islice(D_flatten,i,i+k), islice(C_flatten,i,i+k), islice(K_flatten,i,i+k)),)
+                monosomy_crossovers[sum(C_flatten[i:i+k])/k] = (SUPPORTING_INFO, k/lenC, min(K_flatten[i:i+k])  )
+
+                
+                D_flatten = D_flatten[:i] + D_flatten[i+k:] #Equivalent of del D_flatten[i:i+k+1], but works on tuples.
+                C_flatten = C_flatten[:i] + C_flatten[i+k:] #Equivalent of del C_flatten[i:i+k+1], but works on tuples.
+                K_flatten = K_flatten[:i] + K_flatten[i+k:] #Equivalent of del K_flatten[i:i+k+1], but works on tuples.
+               
+                i += k #overlaps between crossover clusters are not allowed.
+            else:        
+                i += 1    
+            
+    # The keys are the averaged crossovers of each cluster. In addition, the value is a tuple that contains:
+    # (a) crossovers in the cluster, (b) proportion crossovers that supported the cluster formation and
+    # (c) The minimal kappa score of the supporting crossovers.
+        
+    return monosomy_crossovers
+
 def capitalize(x):
     return x[0].upper() + x[1:]
     
@@ -300,7 +341,9 @@ def panel_plot(DATA,**kwargs):
     
     import matplotlib as mpl
 
+    export = dict()
     
+
     scale = kwargs.get('scale', 0.5)
     bin_size = kwargs.get('bin_size', 4000000)
     z_score = kwargs.get('z_score', 1.96)
@@ -354,6 +397,9 @@ def panel_plot(DATA,**kwargs):
         Y = [(y if y else 0) for y in Y]
         E = [(z_score*e if e else 0) for e in E]
         
+        export[identifier] = {'x': X, 'y': Y, 'z_score * SD': E}
+
+        
         T = [(x[1]+x[0])/2 for x in X]                
         steps_x = [X[0][0]]+[i[1] for i in X[:-1] for j in (1,2)]+[X[-1][1]]
         steps_y = [i for i in Y for j in (1,2)]
@@ -373,7 +419,8 @@ def panel_plot(DATA,**kwargs):
         variance_of_LLRs = [b for a,b in info['statistics']['LLRs_per_genomic_window'].values()]
         unnormalized_crossovers = detect_crossovers_v2(genomic_windows, mean_of_LLRs, variance_of_LLRs, z_score=z_score, lookahead=lookahead)
         crossovers[g] = {pos/l: kappa for pos,kappa in unnormalized_crossovers.items()}
-        
+        export[identifier].update({'crossovers': [*crossovers[g]]})
+
         YMAX[g] = yabsmax if YMAX[g]< yabsmax else YMAX[g]
 
     for g,(ax1,(identifier,(likelihoods,info))) in enumerate(zip(AX,DATA.items())):
@@ -383,10 +430,13 @@ def panel_plot(DATA,**kwargs):
         ax1.text(     0.88-mean_genomic_window_size, -0.82*ymax, '25 GW',  horizontalalignment='center', verticalalignment='top',fontsize=2*fs//3, zorder=20)
         ax1.plot([0,1],[0,0],color='black', ls='dotted',alpha=0.7,zorder=0, linewidth=2*scale, scalex=False, scaley=False)
         ax1.set_title(identifier,fontsize=fs)
+        export[identifier]['size_of_25_GW'] = 25*mean_genomic_window_size
+
     
     if len({info['chr_id'] for likelihoods,info in DATA.values()})==1:
         plot_monosomy_crossovers = True
-        monosomy_crossovers = clusters_crossovers(crossovers, dx=1000000/l) #1/num_of_bins[info['chr_id']])
+        monosomy_crossovers = clusters_crossovers_v2(crossovers, dx=1000000/l) #1/num_of_bins[info['chr_id']])
+        export['monosomy'] = {'crossovers': [*monosomy_crossovers]}
     else:
         plot_monosomy_crossovers = False
         
@@ -444,6 +494,8 @@ def panel_plot(DATA,**kwargs):
     else:
        #plt.tight_layout()
        plt.show() 
+       
+    return export
 
 def single_plot(likelihoods,info,**kwargs):
     """ Creates a figure  depicts the log-likelihood ratio vs. chromosomal
@@ -549,8 +601,8 @@ def wrap_panel_plot_many_cases(filenames, **kwargs):
         DATA[identifer.split('.')[1]]=(likelihoods,info)
         show_info(info)
     title = f"{info['chr_id'].replace('chr', 'Chromosome '):s}; Contrasted with {identifer.split('.')[0]:s}"
-    panel_plot(DATA, title=title, **kwargs)
-    return 0
+    export = panel_plot(DATA, title=title, **kwargs)
+    return export
 
 
 def wrap_single_plot(llr_filename, **kwargs):
