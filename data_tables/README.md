@@ -5,10 +5,10 @@
   * table_of_crossovers_in_paternal_genomes_of_disomies.csv - Contains the crossovers that were identified in the paternal genome of disomies via LD-CHASE.
 
 The columns in all the tables are:
-  1. chr_id - Chromosome number.
-  2. embryo_id - A unique identifier that was given to each embryo.
-  3. crossover_position - The position of the crossover, where the chromosome length is normalized to 1.
-  4. z_score - a measurement of the confidence in calling the crossover, which is explained in the subsection "Identifying meiotic crossovers" of the article.
+  1. `chr_id` - Chromosome number.
+  2. `embryo_id` - A unique identifier that was given to each embryo.
+  3. `crossover_position` - The position of the crossover, where the chromosome length is normalized to 1.
+  4. `z_score` - a measurement of the confidence in calling the crossover, which is explained in the subsection "Identifying meiotic crossovers" of the article.
 
 Technical details about calling the crossovers:
 
