@@ -1,1 +1,1 @@
-illustrations
+Illustrations referenced in the README.md file.
