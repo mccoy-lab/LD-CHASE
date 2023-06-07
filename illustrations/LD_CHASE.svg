@@ -9,6 +9,9 @@
    id="svg5"
    inkscape:version="1.2.2 (732a01da63, 2022-12-09, custom)"
    sodipodi:docname="LD_CHASE.svg"
+   inkscape:export-filename="../562745e0/LD_CHASE.png"
+   inkscape:export-xdpi="300"
+   inkscape:export-ydpi="300"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -27,7 +30,7 @@
      units="in"
      inkscape:snap-grids="false"
      inkscape:zoom="2.2622416"
-     inkscape:cx="590.34368"
+     inkscape:cx="576.19841"
      inkscape:cy="119.79269"
      inkscape:window-width="3766"
      inkscape:window-height="2096"
@@ -220,7 +223,7 @@
     <color-profile
        name="Artifex-CMYK-SWOP-Profile"
        xlink:href="file:///snap/inkscape/9256/usr/share/color/icc/ghostscript/default_cmyk.icc"
-       id="color-profile5422" />
+       id="color-profile8794" />
     <marker
        style="overflow:visible"
        id="Arrow2Mend-4"
@@ -340,6 +343,150 @@
          style="fill:context-stroke"
          d="M 10,3 0,6 V 0 Z"
          id="path13285-6-6-2" />
+    </marker>
+    <marker
+       id="ExperimentalArrow-5-0"
+       refX="5"
+       refY="3"
+       orient="auto-start-reverse"
+       inkscape:stockid="ExperimentalArrow"
+       inkscape:isstock="true"
+       viewBox="0 0 10 6"
+       markerWidth="8"
+       markerHeight="4.8000002"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:context-stroke"
+         d="M 10,3 0,6 V 0 Z"
+         id="path13285-3-9" />
+    </marker>
+    <marker
+       id="ExperimentalArrow-5-0-6"
+       refX="5"
+       refY="3"
+       orient="auto-start-reverse"
+       inkscape:stockid="ExperimentalArrow"
+       inkscape:isstock="true"
+       viewBox="0 0 10 6"
+       markerWidth="8"
+       markerHeight="4.8000002"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:context-stroke"
+         d="M 10,3 0,6 V 0 Z"
+         id="path13285-3-9-0" />
+    </marker>
+    <marker
+       id="ExperimentalArrow-5-6"
+       refX="5"
+       refY="3"
+       orient="auto-start-reverse"
+       inkscape:stockid="ExperimentalArrow"
+       inkscape:isstock="true"
+       viewBox="0 0 10 6"
+       markerWidth="8"
+       markerHeight="4.8000002"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:context-stroke"
+         d="M 10,3 0,6 V 0 Z"
+         id="path13285-3-2" />
+    </marker>
+    <marker
+       id="ExperimentalArrow-5-0-6-8"
+       refX="5"
+       refY="3"
+       orient="auto-start-reverse"
+       inkscape:stockid="ExperimentalArrow"
+       inkscape:isstock="true"
+       viewBox="0 0 10 6"
+       markerWidth="8"
+       markerHeight="4.8000002"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:context-stroke"
+         d="M 10,3 0,6 V 0 Z"
+         id="path13285-3-9-0-7" />
+    </marker>
+    <marker
+       id="ExperimentalArrow-5-6-9"
+       refX="5"
+       refY="3"
+       orient="auto-start-reverse"
+       inkscape:stockid="ExperimentalArrow"
+       inkscape:isstock="true"
+       viewBox="0 0 10 6"
+       markerWidth="8"
+       markerHeight="4.8000002"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:context-stroke"
+         d="M 10,3 0,6 V 0 Z"
+         id="path13285-3-2-2" />
+    </marker>
+    <marker
+       id="ExperimentalArrow-5-0-6-8-3"
+       refX="5"
+       refY="3"
+       orient="auto-start-reverse"
+       inkscape:stockid="ExperimentalArrow"
+       inkscape:isstock="true"
+       viewBox="0 0 10 6"
+       markerWidth="8"
+       markerHeight="4.8000002"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:context-stroke"
+         d="M 10,3 0,6 V 0 Z"
+         id="path13285-3-9-0-7-7" />
+    </marker>
+    <marker
+       id="ExperimentalArrow-5-6-9-5"
+       refX="5"
+       refY="3"
+       orient="auto-start-reverse"
+       inkscape:stockid="ExperimentalArrow"
+       inkscape:isstock="true"
+       viewBox="0 0 10 6"
+       markerWidth="8"
+       markerHeight="4.8000002"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:context-stroke"
+         d="M 10,3 0,6 V 0 Z"
+         id="path13285-3-2-2-9" />
+    </marker>
+    <marker
+       id="ExperimentalArrow-5-0-6-89"
+       refX="5"
+       refY="3"
+       orient="auto-start-reverse"
+       inkscape:stockid="ExperimentalArrow"
+       inkscape:isstock="true"
+       viewBox="0 0 10 6"
+       markerWidth="8"
+       markerHeight="4.8000002"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:context-stroke"
+         d="M 10,3 0,6 V 0 Z"
+         id="path13285-3-9-0-73" />
+    </marker>
+    <marker
+       id="ExperimentalArrow-5-6-6"
+       refX="5"
+       refY="3"
+       orient="auto-start-reverse"
+       inkscape:stockid="ExperimentalArrow"
+       inkscape:isstock="true"
+       viewBox="0 0 10 6"
+       markerWidth="8"
+       markerHeight="4.8000002"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:context-stroke"
+         d="M 10,3 0,6 V 0 Z"
+         id="path13285-3-2-1" />
     </marker>
   </defs>
   <g
@@ -562,203 +709,203 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:3.175px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="119.18015"
+       x="120.23848"
        y="74.306427"
        id="text2900-0"><tspan
          sodipodi:role="line"
          id="tspan2898-9"
          style="font-size:3.175px;text-align:center;text-anchor:middle;stroke-width:0.264583"
-         x="119.18015"
+         x="120.23848"
          y="74.306427">Initially we have no knowledge</tspan><tspan
          sodipodi:role="line"
          style="font-size:3.175px;text-align:center;text-anchor:middle;stroke-width:0.264583"
-         x="119.18015"
+         x="120.23848"
          y="78.275177"
          id="tspan2985">about the haplotypes composition</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.82222px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="90.207283"
+       x="91.265617"
        y="95.605392"
        id="text2900-1-4"><tspan
          sodipodi:role="line"
          id="tspan2898-8-0"
          style="font-size:2.82222px;stroke-width:0.264583"
-         x="90.207283"
+         x="91.265617"
          y="95.605392">Sibling 2</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.82222px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="90.171974"
+       x="91.230309"
        y="107.77629"
        id="text2900-1-7-6"><tspan
          sodipodi:role="line"
          id="tspan2898-8-9-9"
          style="font-size:2.82222px;stroke-width:0.264583"
-         x="90.171974"
+         x="91.230309"
          y="107.77629">Sibling 3</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:3.52778px;line-height:0;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="96.765198"
+       x="97.823532"
        y="85.978027"
        id="text2900-2-4"><tspan
          sodipodi:role="line"
          id="tspan2898-6-8"
          style="font-size:2.82222px;line-height:1.15;text-align:center;text-anchor:middle;stroke-width:0.264583"
-         x="96.765198"
+         x="97.823532"
          y="85.978027">Sibling 1</tspan><tspan
          sodipodi:role="line"
          style="font-size:2.11667px;line-height:1.15;text-align:center;text-anchor:middle;stroke-width:0.264583"
-         x="96.765198"
+         x="97.823532"
          y="88.634613"
          id="tspan5993-8">w/monosomy</tspan></text>
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 107.72953,84.855643 c 12.06238,0 12.06238,0 12.06238,0"
+       d="m 108.78787,84.855643 c 12.06238,0 12.06238,0 12.06238,0"
        id="path306-3-24" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 121.43587,84.855643 c 24.81585,0 24.81585,0 24.81585,0"
+       d="m 122.49421,84.855643 c 24.81585,0 24.81585,0 24.81585,0"
        id="path306-3-6-8" />
     <ellipse
        style="fill:#ffffff;stroke:#cccccc;stroke-width:0.249;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
        id="path1382-1"
-       cx="120.58583"
+       cx="121.64417"
        cy="84.855972"
        rx="0.42531818"
        ry="0.42531782" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 110.18957,84.855643 c 6.61459,0 6.61459,0 6.61459,0"
+       d="m 111.24791,84.855643 c 6.61459,0 6.61459,0 6.61459,0"
        id="path25981-7" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 107.54374,84.855643 c 7.9375,0 7.9375,0 7.9375,0"
+       d="m 108.60208,84.855643 c 7.9375,0 7.9375,0 7.9375,0"
        id="path25981-9-5" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 127.38749,84.855643 c 5.82083,0 5.82083,0 5.82083,0"
+       d="m 128.44583,84.855643 c 5.82083,0 5.82083,0 5.82083,0"
        id="path25981-9-7-71" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 107.72953,96.761893 c 12.06238,0 12.06238,0 12.06238,0"
+       d="m 108.78787,96.761893 c 12.06238,0 12.06238,0 12.06238,0"
        id="path306-3-5-2-5" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 121.43587,96.761893 c 24.81585,0 24.81585,0 24.81585,0"
+       d="m 122.49421,96.761893 c 24.81585,0 24.81585,0 24.81585,0"
        id="path306-3-6-3-9-51" />
     <ellipse
        style="fill:#ffffff;stroke:#cccccc;stroke-width:0.249;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
        id="path1382-5-1-1"
-       cx="120.58583"
+       cx="121.64417"
        cy="96.762238"
        rx="0.42531818"
        ry="0.42531782" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 131.88541,96.761893 c 14.5521,0 14.5521,0 14.5521,0"
+       d="m 132.94375,96.761893 c 14.5521,0 14.5521,0 14.5521,0"
        id="path14212-229" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 107.80832,96.761893 c 7.67292,0 7.67292,0 7.67292,0"
+       d="m 108.86666,96.761893 c 7.67292,0 7.67292,0 7.67292,0"
        id="path14212-2-4" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 115.48124,96.761893 c 2.46004,0 2.46004,0 2.46004,0"
+       d="m 116.53958,96.761893 c 2.46004,0 2.46004,0 2.46004,0"
        id="path306-3-5-2-0-3" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 129.23958,96.761893 c 2.46004,0 2.46004,0 2.46004,0"
+       d="m 130.29792,96.761893 c 2.46004,0 2.46004,0 2.46004,0"
        id="path306-3-5-2-0-2-4" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 107.72953,92.793143 c 12.06238,0 12.06238,0 12.06238,0"
+       d="m 108.78787,92.793143 c 12.06238,0 12.06238,0 12.06238,0"
        id="path306-3-5-4" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 121.43587,92.793143 c 24.81585,0 24.81585,0 24.81585,0"
+       d="m 122.49421,92.793143 c 24.81585,0 24.81585,0 24.81585,0"
        id="path306-3-6-3-3" />
     <ellipse
        style="fill:#ffffff;stroke:#cccccc;stroke-width:0.249;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
        id="path1382-5-4"
-       cx="120.58583"
+       cx="121.64417"
        cy="92.793488"
        rx="0.42531818"
        ry="0.42531782" />
     <path
        style="fill:none;stroke:#999999;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 108.07291,92.793143 c 2.91042,0 2.91042,0 2.91042,0"
+       d="m 109.13125,92.793143 c 2.91042,0 2.91042,0 2.91042,0"
        id="path25981-94-3" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
-       d="m 130.56249,92.793143 c 11.90625,0 11.90625,0 11.90625,0"
+       d="m 131.62083,92.793143 c 11.90625,0 11.90625,0 11.90625,0"
        id="path25981-9-1-1" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 107.54374,92.793143 c 2.64584,0 2.64584,0 2.64584,0"
+       d="m 108.60208,92.793143 c 2.64584,0 2.64584,0 2.64584,0"
        id="path25981-9-3-4" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 107.84827,108.66814 c 12.06237,0 12.06237,0 12.06237,0"
+       d="m 108.90661,108.66814 c 12.06237,0 12.06237,0 12.06237,0"
        id="path306-3-5-2-7-5" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 121.52082,108.66814 c 24.81586,0 24.81586,0 24.81586,0"
+       d="m 122.57916,108.66814 c 24.81586,0 24.81586,0 24.81586,0"
        id="path306-3-6-3-9-5-2" />
     <ellipse
        style="fill:#ffffff;stroke:#cccccc;stroke-width:0.249;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
        id="path1382-5-1-9-22"
-       cx="120.69212"
+       cx="121.75045"
        cy="108.66849"
        rx="0.42531818"
        ry="0.42531782" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 131.88514,108.66813 c 14.55211,0 14.55211,0 14.55211,0"
+       d="m 132.94348,108.66813 c 14.55211,0 14.55211,0 14.55211,0"
        id="path14212-22-5" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 107.80805,108.66813 c 7.67293,0 7.67293,0 7.67293,0"
+       d="m 108.86639,108.66813 c 7.67293,0 7.67293,0 7.67293,0"
        id="path14212-2-8-9" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 111.69855,108.66814 c 6.42852,0 6.42852,0 6.42852,0"
+       d="m 112.75689,108.66814 c 6.42852,0 6.42852,0 6.42852,0"
        id="path306-3-5-2-0-9-3" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 127.65181,108.66814 c 5.29193,0 5.29193,0 5.29193,0"
+       d="m 128.71015,108.66814 c 5.29193,0 5.29193,0 5.29193,0"
        id="path306-3-5-2-0-2-7-3" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 107.85661,104.69939 c 12.06238,0 12.06238,0 12.06238,0"
+       d="m 108.91495,104.69939 c 12.06238,0 12.06238,0 12.06238,0"
        id="path306-3-5-7-54" />
     <path
        style="fill:#de8787;stroke:#999999;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 121.56295,104.69939 c 24.81585,0 24.81585,0 24.81585,0"
+       d="m 122.62129,104.69939 c 24.81585,0 24.81585,0 24.81585,0"
        id="path306-3-6-3-0-91" />
     <ellipse
        style="fill:#ffffff;stroke:#cccccc;stroke-width:0.249;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
        id="path1382-5-9-9"
-       cx="120.71291"
+       cx="121.77126"
        cy="104.69974"
        rx="0.42531818"
        ry="0.42531782" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 107.67082,104.69939 c 7.48713,0 7.48713,0 7.48713,0"
+       d="m 108.72916,104.69939 c 7.48713,0 7.48713,0 7.48713,0"
        id="path306-3-3-3" />
     <path
        style="fill:#de8787;stroke:#999999;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 137.48995,104.69939 c 8.81004,0 8.81004,0 8.81004,0"
+       d="m 138.54829,104.69939 c 8.81004,0 8.81004,0 8.81004,0"
        id="path306-3-3-6-8" />
     <path
        style="fill:none;stroke:#999999;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 131.48332,104.69939 c 6.61459,0 6.61459,0 6.61459,0"
+       d="m 132.54166,104.69939 c 6.61459,0 6.61459,0 6.61459,0"
        id="path25981-1-5" />
     <path
        style="fill:#cccccc;stroke:#999999;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 114.28541,104.69939 c 5.29166,0 5.29166,0 5.29166,0"
+       d="m 115.34375,104.69939 c 5.29166,0 5.29166,0 5.29166,0"
        id="path25981-1-2-7" />
     <text
        xml:space="preserve"
@@ -1128,33 +1275,33 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:3.175px;line-height:1.25;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="116.98571"
+       x="118.04403"
        y="120.2047"
        id="text2900-8-3-4"><tspan
          sodipodi:role="line"
          id="tspan2898-4-9-9"
          style="font-size:3.175px;text-align:center;text-anchor:middle;stroke-width:0.264583"
-         x="116.98571"
+         x="118.04403"
          y="120.2047">The output for siblings 1+2</tspan><tspan
          sodipodi:role="line"
          style="font-size:3.175px;text-align:center;text-anchor:middle;stroke-width:0.264583"
-         x="116.98571"
+         x="118.04403"
          y="124.17345"
          id="tspan15337" /></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:3.175px;line-height:1.25;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="116.9542"
+       x="118.01254"
        y="140.9191"
        id="text2900-8-3-4-6"><tspan
          sodipodi:role="line"
          id="tspan2898-4-9-9-58"
          style="font-size:3.175px;text-align:center;text-anchor:middle;stroke-width:0.264583"
-         x="116.9542"
+         x="118.01254"
          y="140.9191">The output for siblings 1+3</tspan><tspan
          sodipodi:role="line"
          style="font-size:3.175px;text-align:center;text-anchor:middle;stroke-width:0.264583"
-         x="116.9542"
+         x="118.01254"
          y="144.88785"
          id="tspan15337-7" /></text>
     <text
@@ -1170,38 +1317,38 @@
          y="120.54853">The output signal of our method</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:0.182;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 107.15843,127.7482 h 39.06762 v 0"
+       d="m 108.21677,127.7482 h 39.06762 v 0"
        id="path56472-8" />
     <path
        style="fill:none;stroke:#000000;stroke-width:0.182;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 106.67878,148.85592 h 39.54714 v 0"
+       d="m 107.73712,148.85592 h 39.54714 v 0"
        id="path56472-6-5" />
     <path
        style="fill:none;stroke:#ef6a5c;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 106.71652,131.71695 h 3.79078 l 0.0175,-8 h 6.02542 l -0.0489,8 h 10.70069 l -0.007,-8 h 2.9974 l 0.0247,8 h 2.70819 v -8 h 9.12487 l 0.008,8 h 4.05927 v 0"
+       d="m 107.77486,131.71695 h 3.79078 l 0.0175,-8 h 6.02542 l -0.0489,8 h 10.70069 l -0.007,-8 h 2.9974 l 0.0247,8 h 2.70819 v -8 h 9.12487 l 0.008,8 h 4.05927 v 0"
        id="path56587-8"
        sodipodi:nodetypes="ccccccccccccccc" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.82222px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="83.990051"
+       x="85.048386"
        y="125.48248"
        id="text59337-2"><tspan
          sodipodi:role="line"
          id="tspan59335-9"
          style="font-size:2.82222px;fill:#000000;stroke-width:0.264583"
-         x="83.990051"
+         x="85.048386"
          y="125.48248">Unmatched</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.82222px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="83.958359"
+       x="85.016693"
        y="131.02359"
        id="text59337-7-6"><tspan
          sodipodi:role="line"
          id="tspan59335-7-0"
          style="font-size:2.82222px;fill:#000000;stroke-width:0.264583"
-         x="83.958359"
+         x="85.016693"
          y="131.02359">Matched</tspan></text>
     <path
        style="fill:#000000;stroke:#000000;stroke-width:0.1841;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -1237,28 +1384,28 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.82222px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="83.990051"
+       x="85.048386"
        y="146.76624"
        id="text59337-73-7"><tspan
          sodipodi:role="line"
          id="tspan59335-6-0"
          style="font-size:2.82222px;fill:#000000;stroke-width:0.264583"
-         x="83.990051"
+         x="85.048386"
          y="146.76624">Unmatched</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.82222px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="83.958359"
+       x="85.016693"
        y="152.69"
        id="text59337-7-5-6"><tspan
          sodipodi:role="line"
          id="tspan59335-7-6-0"
          style="font-size:2.82222px;fill:#000000;stroke-width:0.264583"
-         x="83.958359"
+         x="85.016693"
          y="152.69">Matched</tspan></text>
     <path
        style="fill:none;stroke:#ef6a5c;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 106.84859,152.85592 4.8e-4,-8.00001 h 7.15151 l 4.9e-4,8.00001 h 2.64122 l -2.2e-4,-8.00001 h 10.571 l 4e-5,8.00001 h 5.71219 v -8.00001 h 5.00377 l -2e-5,8.00001 h 8.33763"
+       d="m 107.90693,152.85592 4.8e-4,-8.00001 h 7.15151 l 4.9e-4,8.00001 h 2.64122 l -2.2e-4,-8.00001 h 10.571 l 4e-5,8.00001 h 5.71219 v -8.00001 h 5.00377 l -2e-5,8.00001 h 8.33763"
        id="path62277-7"
        sodipodi:nodetypes="ccccccccccccc" />
     <text
@@ -1413,25 +1560,65 @@
        cx="78.490036"
        cy="97.061615"
        r="0" />
-    <path
-       style="fill:#000000;stroke:#000000;stroke-width:0.357;stroke-dasharray:none;marker-start:url(#ExperimentalArrow)"
-       d="m 79.893477,140.28644 c 3.120547,0 3.120547,0 3.120547,0"
-       id="path2834" />
-    <path
-       style="fill:#000000;stroke:#000000;stroke-width:0.357;stroke-dasharray:none;marker-start:url(#ExperimentalArrow)"
-       d="m 150.00438,140.28644 c 3.12055,0 3.12055,0 3.12055,0"
-       id="path2834-7" />
-    <path
-       style="fill:#000000;stroke:#000000;stroke-width:0.357;stroke-dasharray:none;marker-end:url(#ExperimentalArrow-5)"
-       d="m 78.866176,94.591823 c 3.120547,0 3.120547,0 3.120547,0"
-       id="path2834-2" />
-    <path
-       style="fill:#000000;stroke:#000000;stroke-width:0.357;stroke-dasharray:none;marker-end:url(#ExperimentalArrow-3-5)"
-       d="m 148.97709,94.591823 c 3.12055,0 3.12055,0 3.12055,0"
-       id="path2834-7-9" />
-    <path
-       style="fill:#000000;stroke:#000000;stroke-width:0.357;stroke-dasharray:none;marker-end:url(#ExperimentalArrow-3-5-1)"
-       d="m 191.8436,111.63346 c 0,3.12055 0,3.12055 0,3.12055"
-       id="path2834-7-9-7" />
+    <g
+       id="g8225"
+       transform="translate(0.0702805,0.2366985)">
+      <path
+         style="fill:none;fill-opacity:1;stroke:#bdbdbd;stroke-width:0.357;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ExperimentalArrow-5-0)"
+         d="m 79.571981,94.864285 c 3.120541,0 3.120541,0 3.120541,0"
+         id="path2834-2-3" />
+      <path
+         style="fill:#000000;stroke:#000000;stroke-width:0.357;stroke-dasharray:none;marker-end:url(#ExperimentalArrow-5)"
+         d="m 79.92451,94.591823 c 3.120547,0 3.120547,0 3.120547,0"
+         id="path2834-2" />
+    </g>
+    <g
+       id="g8213"
+       transform="translate(0.581915,-0.2366985)">
+      <path
+         style="fill:none;fill-opacity:1;stroke:#bdbdbd;stroke-width:0.357;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ExperimentalArrow-5-0-6)"
+         d="m 148.87785,95.337682 c 3.12055,0 3.12055,0 3.12055,0"
+         id="path2834-2-3-6" />
+      <path
+         style="fill:#000000;stroke:#000000;stroke-width:0.357;stroke-dasharray:none;marker-end:url(#ExperimentalArrow-5-6)"
+         d="m 149.23038,95.06522 c 3.12055,0 3.12055,0 3.12055,0"
+         id="path2834-2-1" />
+    </g>
+    <g
+       id="g8217"
+       transform="translate(-0.581915,-0.412215)">
+      <path
+         style="fill:none;fill-opacity:1;stroke:#bdbdbd;stroke-width:0.357;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ExperimentalArrow-5-0-6-8)"
+         d="m 154.94276,139.55289 c -3.12055,0 -3.12055,0 -3.12055,0"
+         id="path2834-2-3-6-0" />
+      <path
+         style="fill:#000000;stroke:#000000;stroke-width:0.357;stroke-dasharray:none;marker-end:url(#ExperimentalArrow-5-6-9)"
+         d="m 154.59023,139.28042 c -3.12055,0 -3.12055,0 -3.12055,0"
+         id="path2834-2-1-2" />
+    </g>
+    <g
+       id="g8221"
+       transform="translate(-0.0702785,0.412215)">
+      <path
+         style="fill:none;fill-opacity:1;stroke:#bdbdbd;stroke-width:0.357;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ExperimentalArrow-5-0-6-8-3)"
+         d="m 84.613618,138.72846 c -3.12055,0 -3.12055,0 -3.12055,0"
+         id="path2834-2-3-6-0-2" />
+      <path
+         style="fill:#000000;stroke:#000000;stroke-width:0.357;stroke-dasharray:none;marker-end:url(#ExperimentalArrow-5-6-9-5)"
+         d="m 84.261088,138.45599 c -3.12055,0 -3.12055,0 -3.12055,0"
+         id="path2834-2-1-2-2" />
+    </g>
+    <g
+       id="g8213-2"
+       transform="rotate(90,162.36815,124.71758)">
+      <path
+         style="fill:none;fill-opacity:1;stroke:#bdbdbd;stroke-width:0.357;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ExperimentalArrow-5-0-6-89)"
+         d="m 148.87785,95.337682 c 3.12055,0 3.12055,0 3.12055,0"
+         id="path2834-2-3-6-9" />
+      <path
+         style="fill:#000000;stroke:#000000;stroke-width:0.357;stroke-dasharray:none;marker-end:url(#ExperimentalArrow-5-6-6)"
+         d="m 149.23038,95.06522 c 3.12055,0 3.12055,0 3.12055,0"
+         id="path2834-2-1-3" />
+    </g>
   </g>
 </svg>
