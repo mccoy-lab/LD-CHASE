@@ -30,7 +30,7 @@
      units="in"
      inkscape:snap-grids="false"
      inkscape:zoom="2.2622416"
-     inkscape:cx="576.19841"
+     inkscape:cx="576.1984"
      inkscape:cy="119.79269"
      inkscape:window-width="3766"
      inkscape:window-height="2096"
@@ -223,7 +223,7 @@
     <color-profile
        name="Artifex-CMYK-SWOP-Profile"
        xlink:href="file:///snap/inkscape/9256/usr/share/color/icc/ghostscript/default_cmyk.icc"
-       id="color-profile8794" />
+       id="color-profile11706" />
     <marker
        style="overflow:visible"
        id="Arrow2Mend-4"
@@ -1560,65 +1560,45 @@
        cx="78.490036"
        cy="97.061615"
        r="0" />
-    <g
-       id="g8225"
-       transform="translate(0.0702805,0.2366985)">
-      <path
-         style="fill:none;fill-opacity:1;stroke:#bdbdbd;stroke-width:0.357;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ExperimentalArrow-5-0)"
-         d="m 79.571981,94.864285 c 3.120541,0 3.120541,0 3.120541,0"
-         id="path2834-2-3" />
-      <path
-         style="fill:#000000;stroke:#000000;stroke-width:0.357;stroke-dasharray:none;marker-end:url(#ExperimentalArrow-5)"
-         d="m 79.92451,94.591823 c 3.120547,0 3.120547,0 3.120547,0"
-         id="path2834-2" />
-    </g>
-    <g
-       id="g8213"
-       transform="translate(0.581915,-0.2366985)">
-      <path
-         style="fill:none;fill-opacity:1;stroke:#bdbdbd;stroke-width:0.357;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ExperimentalArrow-5-0-6)"
-         d="m 148.87785,95.337682 c 3.12055,0 3.12055,0 3.12055,0"
-         id="path2834-2-3-6" />
-      <path
-         style="fill:#000000;stroke:#000000;stroke-width:0.357;stroke-dasharray:none;marker-end:url(#ExperimentalArrow-5-6)"
-         d="m 149.23038,95.06522 c 3.12055,0 3.12055,0 3.12055,0"
-         id="path2834-2-1" />
-    </g>
-    <g
-       id="g8217"
-       transform="translate(-0.581915,-0.412215)">
-      <path
-         style="fill:none;fill-opacity:1;stroke:#bdbdbd;stroke-width:0.357;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ExperimentalArrow-5-0-6-8)"
-         d="m 154.94276,139.55289 c -3.12055,0 -3.12055,0 -3.12055,0"
-         id="path2834-2-3-6-0" />
-      <path
-         style="fill:#000000;stroke:#000000;stroke-width:0.357;stroke-dasharray:none;marker-end:url(#ExperimentalArrow-5-6-9)"
-         d="m 154.59023,139.28042 c -3.12055,0 -3.12055,0 -3.12055,0"
-         id="path2834-2-1-2" />
-    </g>
-    <g
-       id="g8221"
-       transform="translate(-0.0702785,0.412215)">
-      <path
-         style="fill:none;fill-opacity:1;stroke:#bdbdbd;stroke-width:0.357;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ExperimentalArrow-5-0-6-8-3)"
-         d="m 84.613618,138.72846 c -3.12055,0 -3.12055,0 -3.12055,0"
-         id="path2834-2-3-6-0-2" />
-      <path
-         style="fill:#000000;stroke:#000000;stroke-width:0.357;stroke-dasharray:none;marker-end:url(#ExperimentalArrow-5-6-9-5)"
-         d="m 84.261088,138.45599 c -3.12055,0 -3.12055,0 -3.12055,0"
-         id="path2834-2-1-2-2" />
-    </g>
-    <g
-       id="g8213-2"
-       transform="rotate(90,162.36815,124.71758)">
-      <path
-         style="fill:none;fill-opacity:1;stroke:#bdbdbd;stroke-width:0.357;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ExperimentalArrow-5-0-6-89)"
-         d="m 148.87785,95.337682 c 3.12055,0 3.12055,0 3.12055,0"
-         id="path2834-2-3-6-9" />
-      <path
-         style="fill:#000000;stroke:#000000;stroke-width:0.357;stroke-dasharray:none;marker-end:url(#ExperimentalArrow-5-6-6)"
-         d="m 149.23038,95.06522 c 3.12055,0 3.12055,0 3.12055,0"
-         id="path2834-2-1-3" />
-    </g>
+    <path
+       style="fill:none;fill-opacity:1;stroke:#bdbdbd;stroke-width:0.257;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ExperimentalArrow-5-0)"
+       d="m 79.642261,95.100983 c 3.120541,0 3.120541,0 3.120541,0"
+       id="path2834-2-3" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:0.257;stroke-dasharray:none;marker-end:url(#ExperimentalArrow-5)"
+       d="m 79.99479,94.828522 c 3.120547,0 3.120547,0 3.120547,0"
+       id="path2834-2" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#bdbdbd;stroke-width:0.257;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ExperimentalArrow-5-0-6)"
+       d="m 149.45976,95.100983 c 3.12056,0 3.12056,0 3.12056,0"
+       id="path2834-2-3-6" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:0.257;stroke-dasharray:none;marker-end:url(#ExperimentalArrow-5-6)"
+       d="m 149.81229,94.828521 c 3.12056,0 3.12056,0 3.12056,0"
+       id="path2834-2-1" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#bdbdbd;stroke-width:0.257;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ExperimentalArrow-5-0-6-8)"
+       d="m 154.36084,139.14067 c -3.12055,0 -3.12055,0 -3.12055,0"
+       id="path2834-2-3-6-0" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:0.257;stroke-dasharray:none;marker-end:url(#ExperimentalArrow-5-6-9)"
+       d="m 154.00831,138.8682 c -3.12055,0 -3.12055,0 -3.12055,0"
+       id="path2834-2-1-2" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#bdbdbd;stroke-width:0.257;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ExperimentalArrow-5-0-6-8-3)"
+       d="m 84.54334,139.14068 c -3.12055,0 -3.12055,0 -3.12055,0"
+       id="path2834-2-3-6-0-2" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:0.257;stroke-dasharray:none;marker-end:url(#ExperimentalArrow-5-6-9-5)"
+       d="m 84.190809,138.86821 c -3.120549,0 -3.120549,0 -3.120549,0"
+       id="path2834-2-1-2-2" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#bdbdbd;stroke-width:0.257;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ExperimentalArrow-5-0-6-89)"
+       d="m 191.74805,111.22728 c 0,3.12055 0,3.12055 0,3.12055"
+       id="path2834-2-3-6-9" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:0.257;stroke-dasharray:none;marker-end:url(#ExperimentalArrow-5-6-6)"
+       d="m 192.02051,111.57981 c 0,3.12055 0,3.12055 0,3.12055"
+       id="path2834-2-1-3" />
   </g>
 </svg>
